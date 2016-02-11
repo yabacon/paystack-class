@@ -28,22 +28,22 @@ Remember to remove the CodeIgniter access check before using.
 	$paystack = new Paystack( $config );
 
 	// Run the required operations
-	list($headers, $body) = $paystack->customer_list();
-	list($headers, $body) = $paystack->customer->list(['perPage'=>5,'page'=>2]); 
+	list($headers, $body, $code) = $paystack->customer_list();
+	list($headers, $body, $code) = $paystack->customer->list(['perPage'=>5,'page'=>2]); 
 	// list the second page at 5 customers per page
 
-  list($headers, $body) = $paystack->customer->create([
+  list($headers, $body, $code) = $paystack->customer->create([
                             'first_name'=>'Dafe', 
                             'last_name'=>'Aba', 
                             'email'=>"dafe@aba.c", 
                             'phone'=>'08012345678'
                           ]);
-  list($headers, $body) = $paystack->transaction->initialize([
+  list($headers, $body, $code) = $paystack->transaction->initialize([
                             'reference'=>'unique_refencecode', 
                             'amount'=>'120000', 
                             'email'=>'dafe@aba.c'
                           ]);
-  list($headers, $body) = $paystack->transaction->verify([
+  list($headers, $body, $code) = $paystack->transaction->verify([
                             'reference'=>'refencecode'
                           ]);
 ```
@@ -64,14 +64,14 @@ A sample config file is here: [config/paystack.php](config/paystack.php)
 	$this->load->library( 'paystack' );
 	
 	// Run the required operations
-	list($headers, $body) = $this->paystack->customer_list();
+	list($headers, $body, $code) = $this->paystack->customer_list();
 	// list the second page at 5 customers per page
-	list($headers, $body) = $this->paystack->transaction->initialize([
+	list($headers, $body, $code) = $this->paystack->transaction->initialize([
                             'reference'=>'unique_refencecode', 
                             'amount'=>'120000', 
                             'email'=>'dafe@aba.c'
                           ]);
-  list($headers, $body) = $this->paystack->transaction->verify([
+  list($headers, $body, $code) = $this->paystack->transaction->verify([
                             'reference'=>'refencecode'
                           ]);
 ```
