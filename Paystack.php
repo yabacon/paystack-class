@@ -127,6 +127,7 @@ class PaystackRouter
 
     const ID_KEY = 'id';
     const PAYSTACK_API_ROOT = 'https://api.paystack.co';
+    const HTTP_CODE_KEY = 'httpcode';
     const HEADER_KEY = 'header';
     const BODY_KEY = 'body';
 
@@ -250,8 +251,16 @@ class PaystackRouter
 
             $response = \curl_exec($ch);
 
+            if (\curl_errno($ch)) {   // should be 0
+            // curl ended with an error
+                \curl_close($ch);
+                return [[],[],0];
+            }
+
+            $code = \curl_getinfo($ch, \CURLINFO_HTTP_CODE);
+
         // Then, after your \curl_exec call:
-            $header_size = \ curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $header_size = \curl_getinfo($ch, \CURLINFO_HEADER_SIZE);
             $header = substr($response, 0, $header_size);
             $header = $this->headersFromLines(explode("\n", trim($header)));
             $body = substr($response, $header_size);
@@ -262,7 +271,11 @@ class PaystackRouter
             \curl_close($ch);
 
             return [
-            PaystackRouter ::HEADER_KEY => $header, PaystackRouter::BODY_KEY => $body ];
+            0 => $header, 1 => $body, 2=> $code,
+            PaystackRouter::HEADER_KEY => $header, PaystackRouter::BODY_KEY => $body,
+            PaystackRouter::HTTP_CODE_KEY=>$code];
+
+        
         
 
     }
