@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +31,3 @@ $config['paystack_key_live_secret']         = 'sk_live_xxx';
 |
 */
 $config['paystack_test_mode']               = true;
-
-

@@ -19,15 +19,20 @@ class Paystack
   *
  * @param string $secret_key - Secret key for your account with Paystack
  */
-    public function __construct($params)
+    public function __construct($params_or_key)
     {
-
-        $test_mode = array_key_exists('paystack_test_mode', $params) ? $params['paystack_test_mode'] : true;
-        if($test_mode) {
-            $secret_key = array_key_exists('paystack_key_test_secret', $params) ? $params['paystack_key_test_secret'] : '';
-        }else {
-            $secret_key = array_key_exists('paystack_key_live_secret', $params) ? $params['paystack_key_live_secret'] : '';
+        if (is_array($params_or_key)) {
+            $params =$params_or_key;
+            $test_mode = array_key_exists('paystack_test_mode', $params) ? $params['paystack_test_mode'] : true;
+            if ($test_mode) {
+                $secret_key = array_key_exists('paystack_key_test_secret', $params) ? $params['paystack_key_test_secret'] : '';
+            } else {
+                $secret_key = array_key_exists('paystack_key_live_secret', $params) ? $params['paystack_key_live_secret'] : '';
+            }
+        } else {
+            $secret_key=$params_or_key;
         }
+        
         if (!is_string($secret_key) || !(substr($secret_key, 0, 8)==='sk_'.($test_mode ? 'test_':'live_'))) {
             // Should never get here
             throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
@@ -114,7 +119,6 @@ class Paystack
  * @see
  * @since
  */
-
 }
 
 class PaystackRouter
@@ -227,7 +231,7 @@ class PaystackRouter
         } elseif ($method === PaystackRouteInterface::GET_METHOD) {
             $endpoint = $endpoint . '?' . http_build_query($payload);
         }
-        // 
+        //
         //open connection
         
             $ch = \curl_init();
@@ -251,11 +255,11 @@ class PaystackRouter
 
             $response = \curl_exec($ch);
 
-            if (\curl_errno($ch)) {   // should be 0
+        if (\curl_errno($ch)) {   // should be 0
             // curl ended with an error
-                \curl_close($ch);
-                return [[],[],0];
-            }
+            \curl_close($ch);
+            return [[],[],0];
+        }
 
             $code = \curl_getinfo($ch, \CURLINFO_HTTP_CODE);
 
