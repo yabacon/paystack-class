@@ -29,15 +29,21 @@ class Paystack
             } else {
                 $secret_key = array_key_exists('paystack_key_live_secret', $params) ? $params['paystack_key_live_secret'] : '';
             }
+            if (!is_string($secret_key) || !(substr($secret_key, 0, 8)==='sk_'.($test_mode ? 'test_':'live_'))) {
+            // Should never get here
+                throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
+   
+            }
         } else {
             $secret_key=$params_or_key;
+            if (!is_string($secret_key) || !(substr($secret_key, 0, 3)==='sk_')) {
+            // Should never get here
+                throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
+   
+            }
         }
         
-        if (!is_string($secret_key) || !(substr($secret_key, 0, 8)==='sk_'.($test_mode ? 'test_':'live_'))) {
-            // Should never get here
-            throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
-   
-        }
+        
          $this->secret_key = $secret_key;
     }
 
