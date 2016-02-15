@@ -1,9 +1,9 @@
 <?php
 /* in CodeIgniter, copy this file to: ./{APPLICATION}/libraries/Paystack.php */
 
-// Codeigniter access check, remove it for direct use
-if(!defined('BASEPATH') ) { exit('No direct script access allowed'); 
-}
+// Codeigniter access check, uncomment if you intend to use in Code Igniter
+// if(!defined('BASEPATH') ) { exit('No direct script access allowed'); 
+// }
 
 /**
  *

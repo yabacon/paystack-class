@@ -13,8 +13,6 @@ Download [Paystack.php](Paystack.php)
 The main idea here is to be as simple as possible, basically you just instantiate the library and execute
 any of the methods in it, all the public API methods available for the moment are implemented.
 
-Remember to remove the CodeIgniter access check before using. 
-
 ```php
   // Require the paystack class
   require_once 'Paystack.php';
@@ -56,6 +54,8 @@ Paste the file as your {APPLICATION}/libraries/Paystack.php
 
 This library is completely functional as standalone but is developed as a Codeigniter library,
 to use it that way you simply create a config file in: {APPLICATION}/config/paystack.php to store the config array.
+
+Remember to uncomment the CodeIgniter access check before using. 
 
 A sample config file is here: [config/paystack.php](config/paystack.php)
 
