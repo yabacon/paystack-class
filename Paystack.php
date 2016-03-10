@@ -258,8 +258,11 @@ class PaystackRouter
             \curl_setopt($ch, \CURLOPT_HTTPHEADER, $flattened_headers);
             \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
             \curl_setopt($ch, \CURLOPT_HEADER, 1);
-//            \curl_setopt($ch, \CURLOPT_SSLVERSION,\CURL_SSLVERSION_TLSv1_2);
-            \curl_setopt($ch, \CURLOPT_SSLVERSION,6);
+            // Make sure CURL_SSLVERSION_TLSv1_2 is defined as 6
+            if(!defined('CURL_SSLVERSION_TLSv1_2')){
+                define('CURL_SSLVERSION_TLSv1_2', 6);
+            }
+            \curl_setopt($ch, \CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
 
             $response = \curl_exec($ch);
 

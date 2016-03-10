@@ -3,7 +3,9 @@
 A class to make Paystack API calls by including a single file or from within codeigniter.
 
 ## Requirements
-PHP 5.5.19 and later; PHP 5.6.3 and later
+- Curl 7.34.0 or more recent
+- PHP 5.4.0 or more recent
+- OpenSSL v1.0.1 or more recent
 
 ##Get it
 Download [Paystack.php](Paystack.php)
