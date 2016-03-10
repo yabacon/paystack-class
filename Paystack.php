@@ -2,7 +2,7 @@
 /* in CodeIgniter, copy this file to: ./{APPLICATION}/libraries/Paystack.php */
 
 // Codeigniter access check, uncomment if you intend to use in Code Igniter
-// if(!defined('BASEPATH') ) { exit('No direct script access allowed'); 
+// if(!defined('BASEPATH') ) { exit('No direct script access allowed');
 // }
 
 /**
@@ -32,18 +32,18 @@ class Paystack
             if (!is_string($secret_key) || !(substr($secret_key, 0, 8)==='sk_'.($test_mode ? 'test_':'live_'))) {
             // Should never get here
                 throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
-   
+
             }
         } else {
             $secret_key=$params_or_key;
             if (!is_string($secret_key) || !(substr($secret_key, 0, 3)==='sk_')) {
             // Should never get here
                 throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
-   
+
             }
         }
-        
-        
+
+
          $this->secret_key = $secret_key;
     }
 
@@ -71,7 +71,7 @@ class Paystack
         */
         if (in_array($method, $this->routes, true)) {
             $route = new PaystackRouter($method, $this);
-    
+
             if (count($args) === 1 && is_integer($args[0])) {
                 // no params, just one arg... the id
                 $args = [[], [ PaystackRouter::ID_KEY => $args[0] ] ];
@@ -109,7 +109,7 @@ class Paystack
             return new PaystackRouter($name, $this);
         }
     }
-    
+
 
     /**
  * PaystackRouter
@@ -219,14 +219,14 @@ class PaystackRouter
  */
     private function callViaCurl($interface, $payload = [ ], $sentargs = [ ])
     {
- 
+
 
         $endpoint = PaystackRouter::PAYSTACK_API_ROOT . $interface[PaystackRouteInterface::ENDPOINT_KEY];
         $method = $interface[PaystackRouteInterface::METHOD_KEY];
 
         $this->moveArgsToSentargs($interface, $payload, $sentargs);
         $this->putArgsIntoEndpoint($endpoint, $sentargs);
- 
+
         $headers = ["Authorization"=>"Bearer " . $this->secret_key ];
         $body = '';
         if (($method === PaystackRouteInterface::POST_METHOD)
@@ -239,11 +239,11 @@ class PaystackRouter
         }
         //
         //open connection
-        
+
             $ch = \curl_init();
         // set url
             \curl_setopt($ch, \CURLOPT_URL, $endpoint);
- 
+
         if ($method === PaystackRouteInterface::POST_METHOD || $method === PaystackRouteInterface::PUT_METHOD) {
             ($method === PaystackRouteInterface:: POST_METHOD) && \curl_setopt($ch, \CURLOPT_POST, true);
             ($method === PaystackRouteInterface ::PUT_METHOD) && \curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -258,6 +258,8 @@ class PaystackRouter
             \curl_setopt($ch, \CURLOPT_HTTPHEADER, $flattened_headers);
             \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
             \curl_setopt($ch, \CURLOPT_HEADER, 1);
+//            \curl_setopt($ch, \CURLOPT_SSLVERSION,\CURL_SSLVERSION_TLSv1_2);
+            \curl_setopt($ch, \CURLOPT_SSLVERSION,6);
 
             $response = \curl_exec($ch);
 
@@ -275,7 +277,7 @@ class PaystackRouter
             $header = $this->headersFromLines(explode("\n", trim($header)));
             $body = substr($response, $header_size);
             $body = json_decode($body, true);
-            
+
 
         //close connection
             \curl_close($ch);
@@ -285,11 +287,11 @@ class PaystackRouter
             PaystackRouter::HEADER_KEY => $header, PaystackRouter::BODY_KEY => $body,
             PaystackRouter::HTTP_CODE_KEY=>$code];
 
-        
-        
+
+
 
     }
-    
+
     private function headersFromLines($lines)
     {
         $headers = [];
@@ -655,7 +657,7 @@ class PaystackTransaction implements PaystackRouteInterface
             PaystackRouteInterface::ENDPOINT_KEY => PaystackTransaction::root() . '/{id}',
             PaystackRouteInterface::ARGS_KEY     => ['id' ] ];
     }
-    
+
     /**
      * List transactions
      *

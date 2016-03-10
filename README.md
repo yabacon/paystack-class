@@ -2,13 +2,12 @@
 # PHP Paystack Class
 A class to make Paystack API calls by including a single file or from within codeigniter.
 
+## Requirements
+PHP 5.5.19 and later; PHP 5.6.3 and later
 
---------
 ##Get it
 Download [Paystack.php](Paystack.php)
 
-
---------------------
 ##Usage - Direct use
 The main idea here is to be as simple as possible, basically you just instantiate the library and execute
 any of the methods in it, all the public API methods available for the moment are implemented.
@@ -27,18 +26,18 @@ any of the methods in it, all the public API methods available for the moment ar
 
 	// Run the required operations
 	list($headers, $body, $code) = $paystack->customer_list();
-	list($headers, $body, $code) = $paystack->customer->list(['perPage'=>5,'page'=>2]); 
+	list($headers, $body, $code) = $paystack->customer->list(['perPage'=>5,'page'=>2]);
 	// list the second page at 5 customers per page
 
   list($headers, $body, $code) = $paystack->customer->create([
-                            'first_name'=>'Dafe', 
-                            'last_name'=>'Aba', 
-                            'email'=>"dafe@aba.c", 
+                            'first_name'=>'Dafe',
+                            'last_name'=>'Aba',
+                            'email'=>"dafe@aba.c",
                             'phone'=>'08012345678'
                           ]);
   list($headers, $body, $code) = $paystack->transaction->initialize([
-                            'reference'=>'unique_refencecode', 
-                            'amount'=>'120000', 
+                            'reference'=>'unique_refencecode',
+                            'amount'=>'120000',
                             'email'=>'dafe@aba.c'
                           ]);
   list($headers, $body, $code) = $paystack->transaction->verify([
@@ -48,27 +47,26 @@ any of the methods in it, all the public API methods available for the moment ar
 
 That's it! Have fun.
 
----------------------
 ##Usage - Codeigniter
 Paste the file as your {APPLICATION}/libraries/Paystack.php
 
 This library is completely functional as standalone but is developed as a Codeigniter library,
 to use it that way you simply create a config file in: {APPLICATION}/config/paystack.php to store the config array.
 
-Remember to uncomment the CodeIgniter access check before using. 
+Remember to uncomment the CodeIgniter access check before using.
 
 A sample config file is here: [config/paystack.php](config/paystack.php)
 
 ```php
 	// Create the library object
 	$this->load->library( 'paystack' );
-	
+
 	// Run the required operations
 	list($headers, $body, $code) = $this->paystack->customer_list();
 	// list the second page at 5 customers per page
 	list($headers, $body, $code) = $this->paystack->transaction->initialize([
-                            'reference'=>'unique_refencecode', 
-                            'amount'=>'120000', 
+                            'reference'=>'unique_refencecode',
+                            'amount'=>'120000',
                             'email'=>'dafe@aba.c'
                           ]);
   list($headers, $body, $code) = $this->paystack->transaction->verify([
