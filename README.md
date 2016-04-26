@@ -27,22 +27,22 @@ any of the methods in it, all the public API methods available for the moment ar
 	$paystack = new Paystack( $config );
 
 	// Run the required operations
-	list($headers, $body, $code) = $paystack->customer_list();
-	list($headers, $body, $code) = $paystack->customer->list(['perPage'=>5,'page'=>2]);
+	$response = $paystack->customer_list();
+	$response = $paystack->customer->list(['perPage'=>5,'page'=>2]);
 	// list the second page at 5 customers per page
 
-  list($headers, $body, $code) = $paystack->customer->create([
+  $response = $paystack->customer->create([
                             'first_name'=>'Dafe',
                             'last_name'=>'Aba',
                             'email'=>"dafe@aba.c",
                             'phone'=>'08012345678'
                           ]);
-  list($headers, $body, $code) = $paystack->transaction->initialize([
+  $response = $paystack->transaction->initialize([
                             'reference'=>'unique_refencecode',
                             'amount'=>'120000',
                             'email'=>'dafe@aba.c'
                           ]);
-  list($headers, $body, $code) = $paystack->transaction->verify([
+  $response = $paystack->transaction->verify([
                             'reference'=>'refencecode'
                           ]);
 ```
@@ -64,14 +64,14 @@ A sample config file is here: [config/paystack.php](config/paystack.php)
 	$this->load->library( 'paystack' );
 
 	// Run the required operations
-	list($headers, $body, $code) = $this->paystack->customer_list();
+	$response = $this->paystack->customer_list();
 	// list the second page at 5 customers per page
-	list($headers, $body, $code) = $this->paystack->transaction->initialize([
+	$response = $this->paystack->transaction->initialize([
                             'reference'=>'unique_refencecode',
                             'amount'=>'120000',
                             'email'=>'dafe@aba.c'
                           ]);
-  list($headers, $body, $code) = $this->paystack->transaction->verify([
+  $response = $this->paystack->transaction->verify([
                             'reference'=>'refencecode'
                           ]);
 ```
