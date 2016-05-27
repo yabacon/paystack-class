@@ -25,9 +25,9 @@ class Paystack
             $params =$params_or_key;
             $test_mode = array_key_exists('paystack_test_mode', $params) ? $params['paystack_test_mode'] : true;
             if ($test_mode) {
-                $secret_key = array_key_exists('paystack_key_test_secret', $params) ? $params['paystack_key_test_secret'] : '';
+                $secret_key = array_key_exists('paystack_key_test_secret', $params) ? trim($params['paystack_key_test_secret']) : '';
             } else {
-                $secret_key = array_key_exists('paystack_key_live_secret', $params) ? $params['paystack_key_live_secret'] : '';
+                $secret_key = array_key_exists('paystack_key_live_secret', $params) ? trim($params['paystack_key_live_secret']) : '';
             }
             if (!is_string($secret_key) || !(substr($secret_key, 0, 8)==='sk_'.($test_mode ? 'test_':'live_'))) {
             // Should never get here
@@ -35,7 +35,7 @@ class Paystack
 
             }
         } else {
-            $secret_key=$params_or_key;
+            $secret_key=trim(strval($params_or_key));
             if (!is_string($secret_key) || !(substr($secret_key, 0, 3)==='sk_')) {
             // Should never get here
                 throw new \InvalidArgumentException('A Valid Paystack Secret Key must start with \'sk_\'.');
