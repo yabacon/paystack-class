@@ -656,7 +656,7 @@ class PaystackHttpResponse
         $resp = \json_decode($this->body);
 
         if ($resp === null || !property_exists($resp, 'status') || !$resp->status) {
-            throw new ApiException(
+            throw new PaystackExceptionApiException(
                 "Paystack Request failed with Response: '" .
                 $this->messageFromApiJson($resp)."'",
                 $resp
