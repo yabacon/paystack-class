@@ -655,14 +655,6 @@ class PaystackHttpResponse
     {
         $resp = \json_decode($this->body);
 
-        if ($resp === null || !property_exists($resp, 'status') || !$resp->status) {
-            throw new ApiException(
-                "Paystack Request failed with Response: '" .
-                $this->messageFromApiJson($resp)."'",
-                $resp
-            );
-        }
-
         return $resp;
     }
 
@@ -696,9 +688,6 @@ class PaystackHttpResponse
     {
         if ($this->okay && $this->forApi) {
             return $this->parsePaystackPaystackHttpResponse();
-        }
-        if (!$this->okay && $this->forApi) {
-            throw new \Exception($this->implodedMessages());
         }
         if ($this->okay) {
             return $this->body;
